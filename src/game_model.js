@@ -60,8 +60,6 @@ class GameModel {
         this.ctx.stroke();
     }
 
-
-
     drawOctOnStage() {
         for (var x = 0; x <= this.pw * 2 / 3; x += this.pw / 3) {
             for (var y = 0; y <= this.ph * 2 /3; y += this.ph / 3) {

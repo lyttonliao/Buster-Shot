@@ -20,8 +20,9 @@ class Game {
         this.moved = false;
 
         this.playerAttack = false;
-        this.shootLoop = [0,1,2,25/7,36/7,46/7];
-        this.currentShootIndex = 0;
+        this.shootLoop = [0, 50 * 40 / 35, 100 * 40 / 35, 175 * 40 / 35, 250 * 40 / 35, 325 * 40 / 35];
+        // this.shootLoop = [0, 325]
+        this.shootIndex = 0;
     }
 
     move() {
@@ -77,14 +78,19 @@ class Game {
     renderPreview() {
         if (this.playerAttack) {
             const now = Date.now();
-            const elasped = now - this.then;
-            if (elasped > this.fpsInterval) {
-                const start = this.shootLoop[this.currentShootIndex];
-                const end = this.shootLoop[this.currentShootIndex + 1];
+            const elapsed = now - this.then;
+            if (elapsed > this.fpsInterval) {
+                this.then = now - (elapsed % this.fpsInterval);
+                const start = this.shootLoop[this.shootIndex];
+                const end = this.shootLoop[this.shootIndex + 1];
+                this.ctx.clearRect(0, 0, 720, 405);
+                this.gameModel.render();
                 this.player.attack(this.abilityUsed, start, end);
-                this.currentShootIndex++;
-                if (this.currentShootIndex === this.shootLoop.length){
-                    this.currentShootIndex = 0;
+                debugger
+                this.boss.render();
+                this.shootIndex++;
+                if (this.shootIndex === this.shootLoop.length){
+                    this.shootIndex = 0;
                     this.playerAttack = false;
                 }
                 window.requestAnimationFrame(this.renderPreview);
@@ -96,7 +102,10 @@ class Game {
             const elapsed = now - this.then;
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
+                this.ctx.clearRect(0, 0, 720, 405);
+                this.gameModel.render();
                 this.player.renderMove(this.currentMoveIndex);
+                this.boss.render();
                 this.currentMoveIndex++;      
                 if (this.currentMoveIndex >= this.moveLoop.length) {
                     this.currentMoveIndex = 1;
