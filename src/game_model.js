@@ -98,6 +98,8 @@ class GameModel {
         }
     }
 
+    // drawHP w
+
     render() {
         this.ctx.fillStyle = "purple";
         this.ctx.fillRect(0, 0, this.cw, this.ch);

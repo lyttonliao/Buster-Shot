@@ -22,7 +22,7 @@ class Player {
                 attackName: 'Bustershot',
                 name: 'shoot',
                 damage: 5,
-                cooldownTime: 500,
+                cooldownTime: 250,
                 cooldown: false,
             }
 
@@ -50,11 +50,9 @@ class Player {
     attack(spell, start, end) {
         const spellAnim = new Image();
         spellAnim.src = `../assets/images/attack${this.spells[spell].id}.png`
-        // debugger
         if (spell === 'shoot') {
             // this.sprite = new Sprite(spellAnim, start, 0, end - start, 50, this.state.position['x'], this.state.position['y'], this.dw, this.dh , this.ctx);
             this.sprite = new Sprite(spellAnim, start, 0, (end - start), spellAnim.height, this.state.position['x'], this.state.position['y'], this.dw * (end - start) / 46, this.dh, this.ctx);
-            debugger
             this.sprite.render();
         }
     }

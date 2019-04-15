@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const ctx = canvasEl.getContext("2d");
     let game = new Game(ctx);
-    game.startAnimating(60);
+    game.startAnimating();
+
 
     
     // const playGame = () => {

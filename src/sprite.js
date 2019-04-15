@@ -9,19 +9,16 @@ class Sprite {
         this.dy = dy; 
         this.dw = dw;
         this.dh = dh;
-        // this.pos = [dx, dy]
         this.ctx = ctx;
     }
-
-    // update(dx, dy) {
-    //     var x = this.pos[0];
-    //     var y = this.pos[1];
-    //     this.pos = [x + dx, y + dy];
-    // }
 
     render() {
         // debugger
         const { image, sx, sy, sw, sh, dx, dy, dw, dh, ctx } = this;
+        ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+
+    renderAnimation(image, sx, sy, sw, sh, dx, dy, dw, dh, ctx) {
         ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
     }
 }

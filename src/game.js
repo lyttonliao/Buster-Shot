@@ -12,12 +12,19 @@ class Game {
         this.move = this.move.bind(this);
         this.move();
 
+        this.resetCooldown = this.resetCooldown.bind(this);
         this.playerAttack = this.playerAttack.bind(this);
         this.playerAttack();
 
         this.moveLoop = [1, 2, 3]
         this.currentMoveIndex = 1;
         this.moved = false;
+
+        this.frameCount = 0;
+        this.bossMoveLoop = [0, 1, 2, 1]
+        this.bossMoveIndex = 0;
+        // this.bossRender = this.bossRender.bind(this);
+        // this.animateBoss = this.animateBoss.bind(this);
 
         this.playerAttack = false;
         this.shootLoop = [0, 50 * 40 / 35, 100 * 40 / 35, 175 * 40 / 35, 250 * 40 / 35, 325 * 40 / 35];
@@ -60,25 +67,44 @@ class Game {
         if (player.spells[spell].cooldown === false) {
             this.playerAttack = true;
             boss.state.hp -= player.spells[spell].damage;
-            player.spells[spell.cooldown] = true;
-            // setTimeout(this.resetCooldown(spell), player.spells[spell].cooldownTime);
+            player.spells[spell].cooldown = true;
+            setTimeout(this.resetCooldown, player.spells[spell].cooldownTime);
         }
     }
 
-    resetCooldown(spell) {
-        this.player.spells[spell].cooldown = true;
+    resetCooldown() {
+        this.player.spells[this.abilityUsed].cooldown = false;
     }
 
-    startAnimating(fps) {
-        this.fpsInterval = 1000 / fps;
+    startAnimating() {
+        this.fpsInterval = 1000 / 30;
         this.then = Date.now();
         this.renderPreview();
     }
 
+    // bossRender() {
+    //     const now = Date.now();
+    //     const elapsed = now - this.then;
+    //     if (elapsed > this.fpsInterval) {
+    //         this.then = now - (elapsed % this.fpsInterval);
+            // this.boss.render(this.bossMoveLoop[this.bossMoveIndex])
+            // this.bossMoveIndex++;
+            // if (this.bossMoveIndex === this.bossMoveLoop.length) {
+            //     this.bossMoveIndex = 0;
+            // }
+    //     }
+    // }
+
+    // animateBoss(fps) {
+    //     this.fpsInterval = 1000 / fps;
+    //     this.then = Date.now();
+    //     this.bossRender();
+    // }
+
     renderPreview() {
+        const now = Date.now();
+        const elapsed = now - this.then;
         if (this.playerAttack) {
-            const now = Date.now();
-            const elapsed = now - this.then;
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
                 const start = this.shootLoop[this.shootIndex];
@@ -86,8 +112,10 @@ class Game {
                 this.ctx.clearRect(0, 0, 720, 405);
                 this.gameModel.render();
                 this.player.attack(this.abilityUsed, start, end);
-                debugger
+                // this.bossRender();
                 this.boss.render();
+
+                this.boss.isAttacked(this.player.spells[this.abilityUsed].id);
                 this.shootIndex++;
                 if (this.shootIndex === this.shootLoop.length){
                     this.shootIndex = 0;
@@ -98,14 +126,16 @@ class Game {
             }
         }
         if (this.moved) {
-            const now = Date.now();
-            const elapsed = now - this.then;
+            // const now = Date.now();
+            // const elapsed = now - this.then;
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
                 this.ctx.clearRect(0, 0, 720, 405);
                 this.gameModel.render();
                 this.player.renderMove(this.currentMoveIndex);
+                // this.bossRender();
                 this.boss.render();
+
                 this.currentMoveIndex++;      
                 if (this.currentMoveIndex >= this.moveLoop.length) {
                     this.currentMoveIndex = 1;
@@ -118,7 +148,13 @@ class Game {
         this.ctx.clearRect(0, 0, 720, 405);
         this.gameModel.render();
         this.player.render();
-        this.boss.render();
+
+        // if (elapsed > this.fpsInterval) {
+        //     this.then = now - (elapsed % this.fpsInterval);
+            // this.bossRender();
+            this.boss.render();
+        // }   
+        
         window.requestAnimationFrame(this.renderPreview);
     }
     
@@ -128,3 +164,16 @@ class Game {
 }
 
 export default Game;
+
+                // this.animateBoss(30);
+                // this.frameCount++;
+                // if (this.frameCount < 10) {
+                //     window.requestAnimationFrame(this.renderPreview);
+                //     return;
+                // }
+                // this.frameCount = 0;
+                // this.boss.render(this.bossMoveLoop[this.bossMoveIndex])
+                // this.bossMoveIndex++;
+                // if (this.bossMoveIndex === this.bossMoveLoop.length) {
+                //     this.bossMoveIndex = 0;
+                // }
