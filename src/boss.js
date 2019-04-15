@@ -1,5 +1,4 @@
 import Sprite from './sprite';
-import { throws } from 'assert';
 
 class Boss {
     constructor(ctx, x, y, dw, dh) {
@@ -20,8 +19,14 @@ class Boss {
             debugger
         }
         this.image.src = '../assets/images/flying.gif';
+        debugger
         this.sprite = new Sprite(this.image, 0, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         this.render = this.render.bind(this);
+
+        this.frameTimer = 0;
+        this.animationSpeed = 20;
+        this.bossMoveLoop = [0, 1, 2, 1]
+        this.currentFrame = 0;
         // this.image.onload = function() {
         //     this.render;
         // }
@@ -61,10 +66,18 @@ class Boss {
     // render(moveIndex) {
     render(){
         // this.sprite = new Sprite(this.image, 155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
-        // this.image.addEventListener('load', render, false);
-            // this.sprite.renderAnimation(this.image, 155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
-        // }
-        this.sprite.render();
+        // this.image.addEventListener('load', this.render, false);
+        this.frameTimer++;
+        if (this.frameTimer % this.animationSpeed < 1) {
+            this.currentFrame++;
+        }
+        const moveIndex = this.bossMoveLoop[this.currentFrame];
+        this.sprite.renderAnimation(this.image, 155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        debugger
+        if (this.currentFrame === this.bossMoveLoop.length) {
+            this.currentFrame = 0;
+        }
+        // this.sprite.render();
     }
 
     isAttacked(spellId) {
