@@ -13,22 +13,16 @@ class Game {
         this.move();
 
         this.resetCooldown = this.resetCooldown.bind(this);
-        this.playerAttack = this.playerAttack.bind(this);
-        this.playerAttack();
+        this.myAttack = this.myAttack.bind(this);
+        this.myAttack();
 
         this.moveLoop = [1, 2, 3]
         this.currentMoveIndex = 1;
         this.moved = false;
 
-        this.frameCount = 0;
-        // this.bossMoveLoop = [0, 1, 2, 1]
-        // this.bossMoveIndex = 0;
-        // this.bossRender = this.bossRender.bind(this);
-        // this.animateBoss = this.animateBoss.bind(this);
-
         this.playerAttack = false;
-        this.shootLoop = [0, 50 * 40 / 35, 100 * 40 / 35, 175 * 40 / 35, 250 * 40 / 35, 325 * 40 / 35];
-        this.shootIndex = 0;
+        this.bossAttack = false;
+        // this.bossAttacking = this.bossAttacking.bind(this);
     }
 
     move() {
@@ -50,29 +44,36 @@ class Game {
         }
     )}
 
-    playerAttack() {
+    myAttack() {
         document.addEventListener('keydown', (e) => {
             if (e.keyCode === 74) {
-                this.abilityUsed = 'shoot';
-                this.attack('shoot');
+                const playerSpell = 'shoot';
+                this.updateAttack(playerSpell);
             } else if (e.keyCode === 85) {
-
+                const playerSpell = this.player.spellList.shift();
+                this.updateAttack(playerSpell);
             }
         })
     }
 
-    attack(spell) {
-        const { player, boss } = this;
-        if (player.spells[spell].cooldown === false) {
+    bossAttack() {
+        this.boss.cycleAttacks();
+    }
+
+    updateAttack(spell) {
+        if (this.player.spells[spell].cooldown === false) {
+            this.player.attack(spell);
             this.playerAttack = true;
-            boss.state.hp -= player.spells[spell].damage;
-            player.spells[spell].cooldown = true;
-            setTimeout(this.resetCooldown, player.spells[spell].cooldownTime);
+
+            this.boss.state.hp -= this.player.spells[spell].damage;
+            this.player.spells[spell].cooldown = true;
+            this.player.resetCooldown(spell);
+            // setTimeout(this.resetCooldown, this.player.spells[spell].cooldownTime);
         }
     }
 
-    resetCooldown() {
-        this.player.spells[this.abilityUsed].cooldown = false;
+    hit() {
+
     }
 
     startAnimating() {
@@ -81,30 +82,10 @@ class Game {
         this.renderPreview();
     }
 
-    // bossRender() {
-    //     const now = Date.now();
-    //     const elapsed = now - this.then;
-    //     if (elapsed > this.fpsInterval) {
-    //         this.then = now - (elapsed % this.fpsInterval);
-            // this.boss.render(this.bossMoveLoop[this.bossMoveIndex])
-            // debugger
-            // this.bossMoveIndex++;
-            // if (this.bossMoveIndex === this.bossMoveLoop.length) {
-            //     this.bossMoveIndex = 0;
-            // }
-    //     }
-    // }
-
-    // animateBoss(fps) {
-    //     this.fpsInterval = 1000 / fps;
-    //     this.then = Date.now();
-    //     this.bossRender();
-    // }
-
     renderPreview() {
         const now = Date.now();
         const elapsed = now - this.then;
-        if (this.playerAttack) {
+        if (this.playerAttack && this.spellBelongsTo() === this.player) {
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
                 const start = this.shootLoop[this.shootIndex];
@@ -145,6 +126,21 @@ class Game {
         this.gameModel.render();
         this.player.render();
         this.boss.render();
+        setTimeout(this.bossAttacking, 8000);
+        if (this.bossAttack && this.spellBelongsTo() === this.boss) {
+            debugger
+            // const bossAtkIndex = this.bossAtkLoop[this.bossAtkFrame]
+            this.boss.attack(this.abilityUsed);
+            // this.bossAtkFrame++;
+
+
+            // if (this.bossAtkFrame === this.bossAtkLoop.length) {
+                // this.bossAtkFrame = 0;
+                this.bossAttack = false;
+            // }
+
+        }
+
         window.requestAnimationFrame(this.renderPreview);
     }
     
@@ -154,16 +150,3 @@ class Game {
 }
 
 export default Game;
-
-                // this.animateBoss(30);
-                // this.frameCount++;
-                // if (this.frameCount < 10) {
-                //     window.requestAnimationFrame(this.renderPreview);
-                //     return;
-                // }
-                // this.frameCount = 0;
-                // this.boss.render(this.bossMoveLoop[this.bossMoveIndex])
-                // this.bossMoveIndex++;
-                // if (this.bossMoveIndex === this.bossMoveLoop.length) {
-                //     this.bossMoveIndex = 0;
-                // }
