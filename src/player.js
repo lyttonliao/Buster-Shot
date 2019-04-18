@@ -1,4 +1,5 @@
 import Sprite from './sprite';
+import { Howl, Howler } from 'howler';
 
 class Player {
     constructor(ctx, x, y, dw, dh) {
@@ -27,20 +28,34 @@ class Player {
                 id: 1,
                 attackName: 'Bustershot',
                 name: 'shoot',
-                damage: 5,
-                cooldownTime: 250,
+                damage: 20,
+                cooldownTime: 500,
+                cooldown: false,
+            },
+            thunderClap: {
+                id: 2,
+                attackName: 'Thunder Clap',
+                name: 'thunderClap',
+                damage: 100,
+                cooldownTime: 10000,
                 cooldown: false,
             }
         }
-        this.spellList = Object.values(this.spells).slice[1].map(spell => spell.name)
+        this.spellList = Object.values(this.spells).slice(1).map(spell => spell.name)
 
         this.moveLoop = [1, 2, 3]
         this.currentMoveIndex = 1;
 
-        this.atkFrameTimer;
-        this.atkAnimationSpeed
+        this.atkFrameTimer = 1;
+        this.atkAnimationSpeed = 3;
         this.atkLoop = [0, 50 * 40 / 35, 100 * 40 / 35, 175 * 40 / 35, 250 * 40 / 35, 325 * 40 / 35];
         this.atkFrame = 0;
+
+        this.eraseFrameTimer = 0;
+        this.eraseAnimationSpeed = 60;
+
+        this.shootSFX = new Audio();
+        this.shootSFX.src = '../assets/sounds/bustershot.mp3';
     }
 
     update(dx, dy) {
@@ -52,22 +67,12 @@ class Player {
     }
 
     render() {
-        this.sprite.renderAnimation(this.image, this.sx, 0, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        this.sprite.renderAnimation(this.sx, 0, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
 
     renderMove(currentLoopIndex) {
-        this.sprite.renderAnimation(this.image, this.sx + 46 * currentLoopIndex, 0, this.sw, 55, this.state.position['x'] - this.dx, this.state.position['y'] - this.dy, this.dw, this.dh, this.ctx)
+        this.sprite.renderAnimation(this.sx + 46 * currentLoopIndex, 0, this.sw, 55, this.state.position['x'] - this.dx, this.state.position['y'] - this.dy, this.dw, this.dh, this.ctx)
     }
-
-    // attack(spell, start, end) {
-    //     const spellAnim = new Image();
-    //     spellAnim.src = `../assets/images/attack${this.spells[spell].id}.png`
-    //     if (spell === 'shoot') {
-    //         // this.sprite = new Sprite(spellAnim, start, 0, end - start, 50, this.state.position['x'], this.state.position['y'], this.dw, this.dh , this.ctx);
-    //         this.sprite = new Sprite(spellAnim, start, 0, (end - start), spellAnim.height, this.state.position['x'], this.state.position['y'], this.dw * (end - start) / 46, this.dh, this.ctx);
-    //         this.sprite.render();
-    //     }
-    // }
 
     attack(spell) {
         if (spell === 'shoot') {
@@ -82,20 +87,31 @@ class Player {
         const start = this.atkLoop[this.atkFrame];
         const end = this.atkLoop[this.atkFrame + 1];
 
-        this.spellSprite.renderAnimation(spellAnim, start, h, (end - start), spellAnim.height, this.state.position['x'], this.state.position['y'], this.dw * (end - start) / 46, this.dh, this.ctx)
-        if (this.atkFrame === this.atkLoop.length) {
-            this.atkFrame = 0;
-        }
+        this.spellSprite.renderAnimation(start, h, (end - start), this.spellSheets.height, this.state.position['x'], this.state.position['y'] + 20, this.dw * (end - start) / 46, this.dh, this.ctx)
+        // debugger
+        // if (this.atkFrame === this.atkLoop.length - 2) {
+        //     debugger
+        //     this.atkFrame = 0;
+        //     this.render();
+        // }
     }
 
     resetCooldown(spell) {
         if (spell === 'shoot') {
-            setTimeout(this.spells[spell].cooldown = false, this.spell[spell].cooldownTime);
+            setTimeout(this.spells[spell].cooldown = false, this.spells[spell].cooldownTime);
+            return;
         }
         setTimeout(() => {
             this.spellList.push(spell),
                 this.spells[spell].cooldown = false;
-        }, this.spell[spell].cooldownTime)
+        }, this.spells[spell].cooldownTime)
+    }
+
+    deleteChar() {
+        // this.eraseFrameTimer++;
+        // if (this.eraseFrameTimer % this.eraseAnimationSpeed === 0) {
+            this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        // }
     }
 }
 

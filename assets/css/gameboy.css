@@ -1,0 +1,161 @@
+#controls {
+    width: 720px;
+    height: 160px;
+    position: relative;
+    justify-content: space-around;
+    top: -20px;
+}
+
+#direction-pad {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    border: 5px solid black;
+    background: gray;
+    /* top: 405px; */
+    left: 60px
+}
+
+
+#up {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 43.3px solid black;
+    position: absolute;
+    left: 50px;
+    top: 2.5px;
+}
+
+
+#up.pressed  {
+    border-bottom: 43.3px solid white;
+}
+
+#left {
+    width: 0;
+    height: 0;
+    border-right: 43.3px solid black;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    position: absolute;
+    top: 50px;
+    left: 2.5px;
+}
+
+#left.pressed {
+    border-right: 43.3px solid white;
+}
+
+#right{
+    width: 0;
+    height: 0;
+    border-left: 43.3px solid black;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    position: absolute;
+    top: 50px;
+    right: 2.5px;
+}
+
+#right.pressed {
+    border-left: 43.3px solid white;
+}
+
+#down {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-top: 43.3px solid black;
+    border-right: 25px solid transparent;
+    position: absolute;
+    bottom: 2.5px;
+    left: 50px;
+}
+
+#down.pressed {
+    border-top: 43.3px solid white;
+
+}
+
+#attack-pad {
+    position: absolute;
+    display:flex;
+    width: 130px;
+    height: 60px;
+    border-radius: 20px;
+    border: 5px solid black;
+    background: gray;
+    right: 60px;
+    top: 45px;
+}
+
+#a-button {
+    margin: auto;
+    height: 30px;
+    width: 30px;
+    border-radius: 25px;
+    border: 2.5px solid black;
+}
+
+
+#a-button p {
+    margin: auto;
+    padding-left: 6.5px;
+    padding-top:1px;
+    color: black;
+    font-size: 25px;
+}
+
+#a-button.pressed {
+    background: white;
+}
+#b-button {
+    margin: auto;
+    height: 30px;
+    width: 30px;
+    border-radius: 25px;
+    border: 2.5px solid black;
+
+}
+
+#b-button.pressed {
+    background: white;
+}
+
+#b-button p {
+    margin: auto;
+    padding-left: 7.5px;
+    padding-top: 1px;
+    color: black;
+    font-size: 25px;
+}
+
+#personal-info {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 720px;
+    height: 75px;
+    top: 40px;
+}
+
+#linkedIn {
+    display: inline-block;
+    height: 75px;
+    width: 75px;
+}
+
+.fa-linkedin {
+    font-size: 2.5em;
+}
+
+#github {
+    display: inline-block;
+}
+
+.fa-github-alt {
+    font-size: 2.5em;
+}

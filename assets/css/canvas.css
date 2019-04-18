@@ -9,14 +9,18 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     z-index: 1;
-    margin: 0;
-    /* opacity: .75; */
+    /* margin-left: 300px; */
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif
 }
 
 #my-canvas {
     border: 5px solid black;
     position: absolute;
-    left: 0;
     margin: auto;
     z-index: 2;
+}
+
+#my-canvas.blur {
+    background: radial-gradient(rgba(37, 33, 33, 0.6), rgba(37, 33, 33, 0.6))
 }

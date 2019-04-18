@@ -1,0 +1,62 @@
+#game-name {
+    font-family: "Halo";
+    font-size: 60px;
+}
+
+#menu {
+    height: 405px;
+    width: 720px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    background-color:gray;
+    /* padding:5px; */
+    font-family: "ArcadeClassic";
+    border: 5px solid black;
+}
+
+
+
+#instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "ArcadeClassic", cursive;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+
+#play {
+    outline-style: none;
+}
+
+#play:hover {
+    color:white;
+    cursor: pointer;
+}
+
+#gameover {
+    width: 720px;
+    /* height: 120px; */
+    position: relative;
+    /* justify-content: center;
+    align-content: center; */
+    z-index: 5;
+    visibility: hidden;
+    font-family: "ArcadeClassic";
+    background-color: gray;
+    left: 5px;
+    bottom: 242.5px;
+}
+
+#gameover p {
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    line-height: 25px;
+    cursor: pointer;
+}

@@ -1,5 +1,7 @@
 import Player from './player';
 import Boss from './boss';
+import Phoenix from './objects/phoenix';
+
 import GameModel from './game_model';
 
 class Game {
@@ -7,22 +9,75 @@ class Game {
         this.ctx = ctx;
         this.gameModel = new GameModel(ctx);
         this.player = new Player(ctx, 125, 130, 110, 160);
-        this.boss = new Boss(ctx, 350, 0, 500, 450);
+        this.boss = new Boss(ctx, 350, 0, 500, 450, this.player);
         this.renderPreview = this.renderPreview.bind(this);
         this.move = this.move.bind(this);
         this.move();
 
-        this.resetCooldown = this.resetCooldown.bind(this);
         this.myAttack = this.myAttack.bind(this);
         this.myAttack();
+
+        this.toggleButtons.call(this);
 
         this.moveLoop = [1, 2, 3]
         this.currentMoveIndex = 1;
         this.moved = false;
 
+        this.falzrAttack = this.falzrAttack.bind(this);
         this.playerAttack = false;
         this.bossAttack = false;
-        // this.bossAttacking = this.bossAttacking.bind(this);
+        
+        this.phoenix = new Image();
+        this.phoenix.src = '../assets/images/phoenix.gif';
+
+        this.gameover = false;
+
+        this.audio = document.getElementById('audio');
+        this.audio.load();
+        // this.gameSFX = new Audio();
+        // this.gameSFX.src = '../assets/sounds/fight.mp3';
+        // this.animation = requestAnimationFrame(this.renderPreview)
+    }
+    
+    toggleButtons() {
+        const up = document.getElementById('up');
+        const left = document.getElementById('left');
+        const down = document.getElementById('down');
+        const right = document.getElementById('right')
+        const a_button = document.getElementById('a-button');
+        const b_button = document.getElementById('b-button');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.keyCode === 87) {
+                up.classList.add('pressed')
+            } else if (e.keyCode === 83) {
+                down.classList.add('pressed')
+            } else if (e.keyCode === 65) {
+                left.classList.add('pressed')
+            } else if (e.keyCode === 68) {
+                right.classList.add('pressed')
+            } else if (e.keyCode === 74) {
+                a_button.classList.add('pressed')
+            } else if (e.keyCode === 75) {
+                b_button.classList.add('pressed')
+            }
+        })
+
+        document.addEventListener('keyup', (e) => {
+            if (e.keyCode === 87) {
+                up.classList.remove('pressed')
+            } else if (e.keyCode === 83) {
+                down.classList.remove('pressed')
+            } else if (e.keyCode === 65) {
+                left.classList.remove('pressed')
+            } else if (e.keyCode === 68) {
+                right.classList.remove('pressed')
+            } else if (e.keyCode === 74) {
+                a_button.classList.remove('pressed')
+            } else if (e.keyCode === 75) {
+                b_button.classList.remove('pressed')
+            }
+        })
     }
 
     move() {
@@ -46,34 +101,29 @@ class Game {
 
     myAttack() {
         document.addEventListener('keydown', (e) => {
-            if (e.keyCode === 74) {
-                const playerSpell = 'shoot';
-                this.updateAttack(playerSpell);
-            } else if (e.keyCode === 85) {
-                const playerSpell = this.player.spellList.shift();
-                this.updateAttack(playerSpell);
-            }
+            if (e.keyCode === 74 || e.keyCode === 75) {
+                this.playerSpell = 'shoot';
+                this.updateAttack(this.playerSpell);
+            } 
+            // else if (e.keyCode === 85) {
+            //     this.playerSpell = this.player.spellList.shift();
+            //     this.updateAttack(this.playerSpell);
+            // }
         })
     }
 
-    bossAttack() {
+    falzrAttack() {
         this.boss.cycleAttacks();
     }
 
     updateAttack(spell) {
         if (this.player.spells[spell].cooldown === false) {
-            this.player.attack(spell);
             this.playerAttack = true;
 
             this.boss.state.hp -= this.player.spells[spell].damage;
             this.player.spells[spell].cooldown = true;
             this.player.resetCooldown(spell);
-            // setTimeout(this.resetCooldown, this.player.spells[spell].cooldownTime);
         }
-    }
-
-    hit() {
-
     }
 
     startAnimating() {
@@ -85,67 +135,125 @@ class Game {
     renderPreview() {
         const now = Date.now();
         const elapsed = now - this.then;
-        if (this.playerAttack && this.spellBelongsTo() === this.player) {
+        // this.gameSFX.play();
+        if (this.playerAttack) {
+            this.moved = false;
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
-                const start = this.shootLoop[this.shootIndex];
-                const end = this.shootLoop[this.shootIndex + 1];
                 this.ctx.clearRect(0, 0, 720, 405);
                 this.gameModel.render();
-                this.player.attack(this.abilityUsed, start, end);
                 this.boss.render();
-
-                this.boss.isAttacked(this.player.spells[this.abilityUsed].id);
-                this.shootIndex++;
-                if (this.shootIndex === this.shootLoop.length){
-                    this.shootIndex = 0;
+                this.boss.attack('phoenixFire');
+                    this.player.shootSFX.play();
+                this.boss.updatePhoenix();
+                if (this.player.atkFrame === this.player.atkLoop.length - 1) {
+                    this.player.atkFrame = 0;
                     this.playerAttack = false;
+                    this.player.render();
+                    // this.player.shootSFX.play();
+                } else {
+                    this.player.attack(this.playerSpell);
                 }
-                window.requestAnimationFrame(this.renderPreview);
+
+                this.updateHP.call(this);
+                
+                this.boss.isAttacked(this.player.spells[this.playerSpell].id);
+                // debugger
+                // if (!this.requestId) {
+                    // this.requestId = window.requestAnimationFrame(this.renderPreview);
+                    window.requestAnimationFrame(this.renderPreview);
+                // }
+                // this.animation();
                 return;
             }
         }
         if (this.moved) {
+            this.playerAttack = false;
             if (elapsed > this.fpsInterval) {
                 this.then = now - (elapsed % this.fpsInterval);
                 this.ctx.clearRect(0, 0, 720, 405);
                 this.gameModel.render();
-                this.player.renderMove(this.currentMoveIndex);
                 this.boss.render();
+                this.boss.attack('phoenixFire');
+                this.boss.updatePhoenix();
+                this.player.renderMove(this.currentMoveIndex);
+                this.updateHP.call(this);
 
                 this.currentMoveIndex++;      
                 if (this.currentMoveIndex >= this.moveLoop.length) {
                     this.currentMoveIndex = 1;
                     this.moved = false;
                 }
-                window.requestAnimationFrame(this.renderPreview);
+                // if (!this.requestId) {
+                    // this.requestId = window.requestAnimationFrame(this.renderPreview);
+                    window.requestAnimationFrame(this.renderPreview);
+                // }
+                // this.animation();
                 return;
             }
         }
+        this.player.render();
+        
         this.ctx.clearRect(0, 0, 720, 405);
         this.gameModel.render();
-        this.player.render();
         this.boss.render();
-        setTimeout(this.bossAttacking, 8000);
-        if (this.bossAttack && this.spellBelongsTo() === this.boss) {
-            debugger
-            // const bossAtkIndex = this.bossAtkLoop[this.bossAtkFrame]
-            this.boss.attack(this.abilityUsed);
-            // this.bossAtkFrame++;
-
-
-            // if (this.bossAtkFrame === this.bossAtkLoop.length) {
-                // this.bossAtkFrame = 0;
-                this.bossAttack = false;
+        this.boss.attack('phoenixFire');
+        this.boss.updatePhoenix();
+        this.updateHP.call(this);
+        this.isGameover();
+        if (this.gameover) {
+            // debugger
+            this.declareWinner();
+            // if (this.requestId) {
+            // window.cancelAnimationFrame(this.requestId);
+            //     this.requestId = undefined;
             // }
-
+            return;
+        } else {
+            this.player.render();
         }
-
-        window.requestAnimationFrame(this.renderPreview);
+        // const plane = requestAnimationFrame(this.renderPreview);
+        // if (!this.requestId) {
+            // this.requestId = window.requestAnimationFrame(this.renderPreview);
+            window.requestAnimationFrame(this.renderPreview);
+        // }
+        // this.animation();
     }
     
-    play() {
-        const { ctx, player } = this;
+    updateHP() {
+        // const playerHP = document.getElementById('player-hp');
+        // const bossHP = document.getElementById('boss-hp');
+        const playerHP = this.player.state.hp;
+        const bossHP = this.boss.state.hp;
+        
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(playerHP, 10, 10)
+        this.ctx.fillText(bossHP, 635, 10)
+        this.ctx.font = "30px Verdana"
+        this.ctx.textAlign = "start";
+        this.ctx.textBaseline = "top";
+    }
+
+    isGameover() {
+        if (this.player.state.hp === 0) {
+            // this.player.deleteChar();
+            // document.location.reload();
+            this.gameover = true;
+            this.winner = this.player;
+        }
+
+        if (this.boss.state.hp === 0) {
+            this.gameover = true;
+            this.winner = this.boss;
+        }
+    }
+
+    declareWinner() {
+        this.winner.deleteChar();
+        const gameover = document.getElementById('gameover');
+        const canvasEl = document.getElementById('my-canvas');
+        gameover.setAttribute("style", "visibility: visible")
+        canvasEl.classList.add('blur');
     }
 }
 
