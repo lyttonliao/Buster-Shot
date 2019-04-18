@@ -28,7 +28,7 @@ class Game {
         this.bossAttack = false;
         
         this.phoenix = new Image();
-        this.phoenix.src = '../assets/images/phoenix.gif';
+        this.phoenix.src = './assets/images/phoenix.gif';
 
         this.gameover = false;
 

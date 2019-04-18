@@ -16,11 +16,11 @@ class Player {
         this.dw = dw;
         this.dh = dh;
         this.image = new Image();
-        this.image.src = '../assets/images/pos-1.gif';
+        this.image.src = './assets/images/pos-1.gif';
         this.sprite = new Sprite(this.image);
 
         this.spellSheets = new Image();
-        this.spellSheets.src = `../assets/images/attack1.png`
+        this.spellSheets.src = `./assets/images/attack1.png`
         this.spellSprite = new Sprite(this.spellSheets)
 
         this.spells = {
@@ -55,7 +55,7 @@ class Player {
         this.eraseAnimationSpeed = 60;
 
         this.shootSFX = new Audio();
-        this.shootSFX.src = '../assets/sounds/bustershot.mp3';
+        this.shootSFX.src = './assets/sounds/bustershot.mp3';
     }
 
     update(dx, dy) {

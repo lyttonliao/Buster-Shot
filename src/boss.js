@@ -16,12 +16,12 @@ class Boss {
         this.dw = dw;
         this.dh = dh;
         this.image = new Image();
-        this.image.src = '../assets/images/flying.gif';
+        this.image.src = './assets/images/flying.gif';
         this.sprite = new Sprite(this.image);
         this.render = this.render.bind(this);
 
         this.atkImage = new Image();   
-        this.atkImage.src = '../assets/images/'
+        this.atkImage.src = './assets/images/'
 
         this.frameTimer = 0;
         this.animationSpeed = 20;
@@ -35,11 +35,11 @@ class Boss {
 
         this.phoenixArray = [];
         this.phoenixFire = new Image();
-        this.phoenixFire.src = `../assets/images/falzrattack1.gif`
+        this.phoenixFire.src = `./assets/images/falzrattack1.gif`
         this.phoenixFireSprite = new Sprite(this.phoenixFire);
 
         this.phoenix = new Image();
-        this.phoenix.src = '../assets/images/phoenix.gif';
+        this.phoenix.src = './assets/images/phoenix.gif';
         this.index = 0;
 
         this.spells = {
@@ -65,7 +65,7 @@ class Boss {
 
         this.attacking = false;
         this.flying = new Audio();
-        this.flying.src = '../assets/sounds/fly.mp3';
+        this.flying.src = './assets/sounds/fly.mp3';
     }
 
     update(dx, dy) {
@@ -90,7 +90,7 @@ class Boss {
     isAttacked(spellId) {
         if (spellId === 1) {
             const damaged = new Image();
-            damaged.src = `../assets/images/bossflash${1}.gif`;
+            damaged.src = `./assets/images/bossflash${1}.gif`;
             const flashSprite = new Sprite(damaged);
             flashSprite.renderAnimation(0, 0, damaged.width, damaged.height, this.state.position['x'] + this.dw / (3 + Math.random()), this.state.position['y'] + this.dh / (Math.random() + 2), damaged.width * 2, damaged.height * 2, this.ctx);
             flashSprite.renderAnimation(0, 0, damaged.width, damaged.height, this.state.position['x'] + this.dw / (2 + Math.random()), this.state.position['y'] + this.dh / (Math.random() + 4), damaged.width * 2, damaged.height * 2, this.ctx);
@@ -173,7 +173,7 @@ class Boss {
 
     deleteChar() {
         const death = new Image();
-        death.src = '../assets/images/phoenix1.gif';
+        death.src = './assets/images/phoenix1.gif';
         const deathSprite = new Sprite(death);
         deathSprite.renderAnimation(77.5, 350, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
