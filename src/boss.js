@@ -11,7 +11,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 20,
+            hp: 3000,
         }
         this.dw = dw;
         this.dh = dh;
