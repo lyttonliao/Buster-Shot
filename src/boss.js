@@ -11,7 +11,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 3000,
+            hp: 20,
         }
         this.dw = dw;
         this.dh = dh;
@@ -172,10 +172,11 @@ class Boss {
     }
 
     deleteChar() {
-        const death = new Image();
-        death.src = './assets/images/phoenix1.gif';
-        const deathSprite = new Sprite(death);
-        deathSprite.renderAnimation(77.5, 350, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        this.death = new Image();
+        this.death.src = './assets/images/phoenix1.gif';
+        this.deathSprite = new Sprite(this.death);
+        debugger
+        this.deathSprite.renderAnimation(0, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
 
     // resetCooldown(spell) {

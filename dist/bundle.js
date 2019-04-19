@@ -3291,7 +3291,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 3000,
+            hp: 20,
         }
         this.dw = dw;
         this.dh = dh;
@@ -3452,10 +3452,11 @@ class Boss {
     }
 
     deleteChar() {
-        const death = new Image();
-        death.src = './assets/images/phoenix1.gif';
-        const deathSprite = new _sprite__WEBPACK_IMPORTED_MODULE_0__["default"](death);
-        deathSprite.renderAnimation(77.5, 350, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        this.death = new Image();
+        this.death.src = './assets/images/phoenix1.gif';
+        this.deathSprite = new _sprite__WEBPACK_IMPORTED_MODULE_0__["default"](this.death);
+        debugger
+        this.deathSprite.renderAnimation(0, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
 
     // resetCooldown(spell) {
@@ -3566,8 +3567,12 @@ class Game {
     }
 
     move() {
+        // debugger
         const player = this.player;
         document.addEventListener('keydown', (e) => {
+            if (this.gameover) {
+                return;
+            }
             if (e.keyCode === 87 && player.state.position['y'] !== 69.25) {
                 this.player.update(0, -60.75);
                 this.moved = true;
@@ -3685,18 +3690,24 @@ class Game {
         this.boss.attack('phoenixFire');
         this.boss.updatePhoenix();
         this.updateHP.call(this);
+        this.player.render();
         this.isGameover();
         if (this.gameover) {
             // debugger
+            this.ctx.clearRect(0, 0, 720, 405);
+            this.gameModel.render();
             this.declareWinner();
+            this.winner.render();
+            debugger
             // if (this.requestId) {
-            // window.cancelAnimationFrame(this.requestId);
+            window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
             //     this.requestId = undefined;
             // }
             return;
-        } else {
-            this.player.render();
         }
+        // } else {
+            // this.boss.render();
+        // }
         // const plane = requestAnimationFrame(this.renderPreview);
         // if (!this.requestId) {
             // this.requestId = window.requestAnimationFrame(this.renderPreview);
@@ -3724,20 +3735,36 @@ class Game {
             // this.player.deleteChar();
             // document.location.reload();
             this.gameover = true;
-            this.winner = this.player;
+            this.loser = this.player;
+            this.winner = this.boss
         }
 
         if (this.boss.state.hp === 0) {
             this.gameover = true;
-            this.winner = this.boss;
+            this.loser = this.boss;
+            this.winner = this.player
+            debugger
+            
         }
     }
 
     declareWinner() {
-        this.winner.deleteChar();
+        this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
+        const endgameStatus = document.getElementsByClassName('end-game')
         const canvasEl = document.getElementById('my-canvas');
         gameover.setAttribute("style", "visibility: visible")
+        // debugger
+        if (this.winner === this.player) {
+            endgameStatus[0].innerHTML = "YOU WIN! CLICK TO PLAY AGAIN."
+        } else if (this.winner === this.boss) {
+            endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
+        }
+        // if (this.winner === this.boss) {
+        //     debugger
+        //     endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
+        //     debugger
+        // }
         canvasEl.classList.add('blur');
     }
 }
@@ -3900,7 +3927,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameover = document.getElementById("gameover")
 
     const ctx = canvasEl.getContext("2d");
-    let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
+    // let game = new Game(ctx);
     // game.startAnimating();
 
     audio.autoplay = true;
@@ -3922,7 +3949,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })    
     
     const playGame = () => {
-        game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
+        const game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
         canvasEl.classList = '';
         game.startAnimating();
         // game.gameSFX.play();

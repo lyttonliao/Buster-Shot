@@ -81,8 +81,12 @@ class Game {
     }
 
     move() {
+        // debugger
         const player = this.player;
         document.addEventListener('keydown', (e) => {
+            if (this.gameover) {
+                return;
+            }
             if (e.keyCode === 87 && player.state.position['y'] !== 69.25) {
                 this.player.update(0, -60.75);
                 this.moved = true;
@@ -200,18 +204,24 @@ class Game {
         this.boss.attack('phoenixFire');
         this.boss.updatePhoenix();
         this.updateHP.call(this);
+        this.player.render();
         this.isGameover();
         if (this.gameover) {
             // debugger
+            this.ctx.clearRect(0, 0, 720, 405);
+            this.gameModel.render();
             this.declareWinner();
+            this.winner.render();
+            debugger
             // if (this.requestId) {
-            // window.cancelAnimationFrame(this.requestId);
+            window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
             //     this.requestId = undefined;
             // }
             return;
-        } else {
-            this.player.render();
         }
+        // } else {
+            // this.boss.render();
+        // }
         // const plane = requestAnimationFrame(this.renderPreview);
         // if (!this.requestId) {
             // this.requestId = window.requestAnimationFrame(this.renderPreview);
@@ -239,20 +249,36 @@ class Game {
             // this.player.deleteChar();
             // document.location.reload();
             this.gameover = true;
-            this.winner = this.player;
+            this.loser = this.player;
+            this.winner = this.boss
         }
 
         if (this.boss.state.hp === 0) {
             this.gameover = true;
-            this.winner = this.boss;
+            this.loser = this.boss;
+            this.winner = this.player
+            debugger
+            
         }
     }
 
     declareWinner() {
-        this.winner.deleteChar();
+        this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
+        const endgameStatus = document.getElementsByClassName('end-game')
         const canvasEl = document.getElementById('my-canvas');
         gameover.setAttribute("style", "visibility: visible")
+        // debugger
+        if (this.winner === this.player) {
+            endgameStatus[0].innerHTML = "YOU WIN! CLICK TO PLAY AGAIN."
+        } else if (this.winner === this.boss) {
+            endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
+        }
+        // if (this.winner === this.boss) {
+        //     debugger
+        //     endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
+        //     debugger
+        // }
         canvasEl.classList.add('blur');
     }
 }

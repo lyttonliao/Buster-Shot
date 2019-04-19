@@ -3,7 +3,7 @@
     height: 160px;
     position: relative;
     justify-content: space-around;
-    top: -20px;
+    top: 440px;
 }
 
 #direction-pad {
@@ -139,7 +139,7 @@
     justify-content: center;
     width: 720px;
     height: 75px;
-    top: 40px;
+    top: 440px;
 }
 
 #linkedIn {

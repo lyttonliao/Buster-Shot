@@ -8,7 +8,7 @@
     width: 720px;
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: absolute;
     justify-content: center;
     align-items: center;
     z-index: 5;
@@ -41,22 +41,32 @@
 
 #gameover {
     width: 720px;
-    /* height: 120px; */
-    position: relative;
+    height: 405px;
+    position: absolute;
     /* justify-content: center;
     align-content: center; */
+    display: flex;
     z-index: 5;
     visibility: hidden;
     font-family: "ArcadeClassic";
     background-color: gray;
     left: 5px;
-    bottom: 242.5px;
+    border: 5px solid black;
+    opacity: .9;
 }
 
 #gameover p {
-    /* position: absolute; */
+    position: relative;
     display: flex;
     justify-content: center;
-    line-height: 25px;
+    /* line-height: 25px; */
+    z-index: 5;
+    font-family: "ArcadeClassic";
+    cursor: pointer;
+    margin: auto;
+}
+
+#gameover p:hover {
+    color: white;
     cursor: pointer;
 }

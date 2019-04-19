@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameover = document.getElementById("gameover")
 
     const ctx = canvasEl.getContext("2d");
-    let game = new Game(ctx);
+    // let game = new Game(ctx);
     // game.startAnimating();
 
     audio.autoplay = true;
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })    
     
     const playGame = () => {
-        game = new Game(ctx);
+        const game = new Game(ctx);
         canvasEl.classList = '';
         game.startAnimating();
         // game.gameSFX.play();

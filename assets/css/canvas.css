@@ -22,5 +22,6 @@ body {
 }
 
 #my-canvas.blur {
-    background: radial-gradient(circle farthest-side, rgba(37, 33, 33, 0.6), rgba(7, 5, 5, 0.829))
+    background: radial-gradient(circle farthest-side, rgba(37, 33, 33, 0.6), rgba(7, 5, 5, 0.829)),
+    /* background: radial-gradient(center ) */
 }
