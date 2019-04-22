@@ -3930,7 +3930,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // let game = new Game(ctx);
     // game.startAnimating();
 
-    audio.autoplay = true;
+    audio.autoplay = false;
 
     audio.addEventListener("ended", function () {
         this.currentTime = 0;
