@@ -5,28 +5,31 @@ document.addEventListener("DOMContentLoaded", () => {
     canvasEl.width = 720;
     canvasEl.height = 405;
 
-    const play = document.getElementById("play");
+    const play = document.getElementById("play")
     const menu = document.getElementById("menu")
     const audio = document.getElementById("audio")
     const gameover = document.getElementById("gameover")
-
+    const volControl = document.getElementById('vol-control')
+    
     const ctx = canvasEl.getContext("2d");
-    // let game = new Game(ctx);
-    // game.startAnimating();
 
-    audio.autoplay = false;
 
-    audio.addEventListener("ended", function () {
+    audio.addEventListener("ended", () => {
         this.currentTime = 0;
         audio.play();
     }, false);
+    
 
-    gameover.addEventListener("click", ()=> {
+    gameover.addEventListener("click", () => {
         gameover.setAttribute("style", "visibility: hidden")
         playGame();
     })
 
-    // debugger
+    volControl.addEventListener("click", () => {
+        audio.muted = volControl.className === 'fas fa-volume-up' ? true : false
+        volControl.className = volControl.className === 'fas fa-volume-up' ? 'fas fa-volume-off' : 'fas fa-volume-up'
+    })
+
     play.addEventListener("click", () => {
         menu.setAttribute("style", "visibility: hidden")
         playGame();

@@ -33,7 +33,6 @@ class Phoenix {
     reducePlayerHP(damage) {
         if (this.isCollided()) {
             this.player.state.hp -= damage;
-            this.player.render;
         }
     }
 }

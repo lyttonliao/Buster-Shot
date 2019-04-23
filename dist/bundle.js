@@ -3512,6 +3512,7 @@ class Game {
         this.falzrAttack = this.falzrAttack.bind(this);
         this.playerAttack = false;
         this.bossAttack = false;
+        this.playerPrevHP = this.player.state.hp;
         
         this.phoenix = new Image();
         this.phoenix.src = './assets/images/phoenix.gif';
@@ -3520,9 +3521,7 @@ class Game {
 
         this.audio = document.getElementById('audio');
         this.audio.load();
-        // this.gameSFX = new Audio();
-        // this.gameSFX.src = '../assets/sounds/fight.mp3';
-        // this.animation = requestAnimationFrame(this.renderPreview)
+        this.audio.play();
     }
     
     toggleButtons() {
@@ -3567,7 +3566,6 @@ class Game {
     }
 
     move() {
-        // debugger
         const player = this.player;
         document.addEventListener('keydown', (e) => {
             if (this.gameover) {
@@ -3690,15 +3688,18 @@ class Game {
         this.boss.attack('phoenixFire');
         this.boss.updatePhoenix();
         this.updateHP.call(this);
-        this.player.render();
+        if (this.playerPrevHP !== this.player.state.hp) {
+            this.player.playerHit();
+            this.playerPrevHP = this.player.state.hp
+        } else {
+            this.player.render();
+        }
         this.isGameover();
         if (this.gameover) {
-            // debugger
             this.ctx.clearRect(0, 0, 720, 405);
             this.gameModel.render();
             this.declareWinner();
             this.winner.render();
-            debugger
             // if (this.requestId) {
             window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
             //     this.requestId = undefined;
@@ -3743,18 +3744,16 @@ class Game {
             this.gameover = true;
             this.loser = this.boss;
             this.winner = this.player
-            debugger
-            
         }
     }
 
     declareWinner() {
+        debugger
         this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
         const endgameStatus = document.getElementsByClassName('end-game')
         const canvasEl = document.getElementById('my-canvas');
         gameover.setAttribute("style", "visibility: visible")
-        // debugger
         if (this.winner === this.player) {
             endgameStatus[0].innerHTML = "YOU WIN! CLICK TO PLAY AGAIN."
         } else if (this.winner === this.boss) {
@@ -3921,28 +3920,31 @@ document.addEventListener("DOMContentLoaded", () => {
     canvasEl.width = 720;
     canvasEl.height = 405;
 
-    const play = document.getElementById("play");
+    const play = document.getElementById("play")
     const menu = document.getElementById("menu")
     const audio = document.getElementById("audio")
     const gameover = document.getElementById("gameover")
-
+    const volControl = document.getElementById('vol-control')
+    
     const ctx = canvasEl.getContext("2d");
-    // let game = new Game(ctx);
-    // game.startAnimating();
 
-    audio.autoplay = false;
 
-    audio.addEventListener("ended", function () {
-        this.currentTime = 0;
+    audio.addEventListener("ended", () => {
+        undefined.currentTime = 0;
         audio.play();
     }, false);
+    
 
-    gameover.addEventListener("click", ()=> {
+    gameover.addEventListener("click", () => {
         gameover.setAttribute("style", "visibility: hidden")
         playGame();
     })
 
-    // debugger
+    volControl.addEventListener("click", () => {
+        audio.muted = volControl.className === 'fas fa-volume-up' ? true : false
+        volControl.className = volControl.className === 'fas fa-volume-up' ? 'fas fa-volume-off' : 'fas fa-volume-up'
+    })
+
     play.addEventListener("click", () => {
         menu.setAttribute("style", "visibility: hidden")
         playGame();
@@ -4037,7 +4039,6 @@ class Phoenix {
     reducePlayerHP(damage) {
         if (this.isCollided()) {
             this.player.state.hp -= damage;
-            this.player.render;
         }
     }
 }
@@ -4112,7 +4113,7 @@ class Player {
         this.atkFrame = 0;
 
         this.eraseFrameTimer = 0;
-        this.eraseAnimationSpeed = 60;
+        this.eraseAnimationSpeed = 11;
 
         this.shootSFX = new Audio();
         this.shootSFX.src = './assets/sounds/bustershot.mp3';
@@ -4170,8 +4171,15 @@ class Player {
     deleteChar() {
         // this.eraseFrameTimer++;
         // if (this.eraseFrameTimer % this.eraseAnimationSpeed === 0) {
-            this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         // }
+    }
+
+    playerHit() {
+        this.eraseFrameTimer++;
+        if (this.eraseFrameTimer % this.eraseAnimationSpeed === 0) {
+            this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        }
     }
 }
 

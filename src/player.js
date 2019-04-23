@@ -52,7 +52,7 @@ class Player {
         this.atkFrame = 0;
 
         this.eraseFrameTimer = 0;
-        this.eraseAnimationSpeed = 60;
+        this.eraseAnimationSpeed = 11;
 
         this.shootSFX = new Audio();
         this.shootSFX.src = './assets/sounds/bustershot.mp3';
@@ -110,8 +110,15 @@ class Player {
     deleteChar() {
         // this.eraseFrameTimer++;
         // if (this.eraseFrameTimer % this.eraseAnimationSpeed === 0) {
-            this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         // }
+    }
+
+    playerHit() {
+        this.eraseFrameTimer++;
+        if (this.eraseFrameTimer % this.eraseAnimationSpeed === 0) {
+            this.sprite.renderAnimation(175, 300, this.sw, 55, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
+        }
     }
 }
 

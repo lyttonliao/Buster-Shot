@@ -43,14 +43,15 @@
     width: 720px;
     height: 405px;
     position: absolute;
-    /* justify-content: center;
-    align-content: center; */
+    /* flex-direction: column; */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     z-index: 5;
     visibility: hidden;
     font-family: "ArcadeClassic";
     background-color: gray;
-    left: 5px;
+    /* left: 5px; */
     border: 5px solid black;
     opacity: .9;
 }

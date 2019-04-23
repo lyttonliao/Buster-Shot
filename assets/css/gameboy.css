@@ -1,9 +1,9 @@
 #controls {
     width: 720px;
     height: 160px;
-    position: relative;
+    position: absolute;
     justify-content: space-around;
-    top: 440px;
+    top: 475px;
 }
 
 #direction-pad {
@@ -139,13 +139,11 @@
     justify-content: center;
     width: 720px;
     height: 75px;
-    top: 440px;
+    top: 675px;
 }
 
 #linkedIn {
-    display: inline-block;
-    height: 75px;
-    width: 75px;
+    padding: 15px;
 }
 
 .fa-linkedin {
@@ -153,9 +151,28 @@
 }
 
 #github {
-    display: inline-block;
+    padding: 15px;
 }
 
 .fa-github-alt {
     font-size: 2.5em;
+}
+
+.fa-angellist {
+    font-size: 2.5em;
+}
+
+#angellist {
+    padding: 15px;
+}
+
+#mute {
+    position: absolute;
+    top: 435px;
+    font-size: 2em;
+}
+
+#mute:hover {
+    cursor: pointer;
+    color: white;
 }

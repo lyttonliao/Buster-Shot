@@ -26,6 +26,7 @@ class Game {
         this.falzrAttack = this.falzrAttack.bind(this);
         this.playerAttack = false;
         this.bossAttack = false;
+        this.playerPrevHP = this.player.state.hp;
         
         this.phoenix = new Image();
         this.phoenix.src = './assets/images/phoenix.gif';
@@ -34,9 +35,7 @@ class Game {
 
         this.audio = document.getElementById('audio');
         this.audio.load();
-        // this.gameSFX = new Audio();
-        // this.gameSFX.src = '../assets/sounds/fight.mp3';
-        // this.animation = requestAnimationFrame(this.renderPreview)
+        this.audio.play();
     }
     
     toggleButtons() {
@@ -81,7 +80,6 @@ class Game {
     }
 
     move() {
-        // debugger
         const player = this.player;
         document.addEventListener('keydown', (e) => {
             if (this.gameover) {
@@ -204,15 +202,18 @@ class Game {
         this.boss.attack('phoenixFire');
         this.boss.updatePhoenix();
         this.updateHP.call(this);
-        this.player.render();
+        if (this.playerPrevHP !== this.player.state.hp) {
+            this.player.playerHit();
+            this.playerPrevHP = this.player.state.hp
+        } else {
+            this.player.render();
+        }
         this.isGameover();
         if (this.gameover) {
-            // debugger
             this.ctx.clearRect(0, 0, 720, 405);
             this.gameModel.render();
             this.declareWinner();
             this.winner.render();
-            debugger
             // if (this.requestId) {
             window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
             //     this.requestId = undefined;
@@ -257,18 +258,16 @@ class Game {
             this.gameover = true;
             this.loser = this.boss;
             this.winner = this.player
-            debugger
-            
         }
     }
 
     declareWinner() {
+        debugger
         this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
         const endgameStatus = document.getElementsByClassName('end-game')
         const canvasEl = document.getElementById('my-canvas');
         gameover.setAttribute("style", "visibility: visible")
-        // debugger
         if (this.winner === this.player) {
             endgameStatus[0].innerHTML = "YOU WIN! CLICK TO PLAY AGAIN."
         } else if (this.winner === this.boss) {

@@ -1,17 +1,28 @@
 body {
-    position: relative;
-    background-image: url(../images/megaman2.jpg);
+    position: absolute;
+    /* background-image: url(../images/megaman.jpg); */
     background-repeat: no-repeat;
-    width: 100%;
     height: 100%;
+    width: 100%;
     background-size: cover;
+    background-position: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
+    background-color: rgb(84, 131, 170);
     z-index: 1;
     /* margin-left: 300px; */
-    margin: auto;
+    margin: 0;
     font-family: Arial, Helvetica, sans-serif
+}
+
+#canvas-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 #my-canvas {
