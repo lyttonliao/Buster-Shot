@@ -134,7 +134,7 @@
 }
 
 #personal-info {
-    position: relative;
+    position: absolute;
     display: flex;
     justify-content: center;
     width: 720px;
