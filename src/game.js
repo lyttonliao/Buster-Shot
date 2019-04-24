@@ -245,7 +245,7 @@ class Game {
     }
 
     isGameover() {
-        if (this.player.state.hp === 0) {
+        if (this.player.state.hp <= 0) {
             // this.player.deleteChar();
             // document.location.reload();
             this.gameover = true;
@@ -253,7 +253,7 @@ class Game {
             this.winner = this.boss
         }
 
-        if (this.boss.state.hp === 0) {
+        if (this.boss.state.hp <= 0) {
             this.gameover = true;
             this.loser = this.boss;
             this.winner = this.player
