@@ -3455,7 +3455,6 @@ class Boss {
         this.death = new Image();
         this.death.src = './assets/images/phoenix1.gif';
         this.deathSprite = new _sprite__WEBPACK_IMPORTED_MODULE_0__["default"](this.death);
-        debugger
         this.deathSprite.renderAnimation(0, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
 
@@ -3646,7 +3645,6 @@ class Game {
                 this.updateHP.call(this);
                 
                 this.boss.isAttacked(this.player.spells[this.playerSpell].id);
-                // debugger
                 // if (!this.requestId) {
                     // this.requestId = window.requestAnimationFrame(this.renderPreview);
                     window.requestAnimationFrame(this.renderPreview);
@@ -3748,7 +3746,6 @@ class Game {
     }
 
     declareWinner() {
-        debugger
         this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
         const endgameStatus = document.getElementsByClassName('end-game')
@@ -3759,11 +3756,6 @@ class Game {
         } else if (this.winner === this.boss) {
             endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
         }
-        // if (this.winner === this.boss) {
-        //     debugger
-        //     endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
-        //     debugger
-        // }
         canvasEl.classList.add('blur');
     }
 }
@@ -4149,12 +4141,6 @@ class Player {
         const end = this.atkLoop[this.atkFrame + 1];
 
         this.spellSprite.renderAnimation(start, h, (end - start), this.spellSheets.height, this.state.position['x'], this.state.position['y'] + 20, this.dw * (end - start) / 46, this.dh, this.ctx)
-        // debugger
-        // if (this.atkFrame === this.atkLoop.length - 2) {
-        //     debugger
-        //     this.atkFrame = 0;
-        //     this.render();
-        // }
     }
 
     resetCooldown(spell) {

@@ -160,7 +160,6 @@ class Game {
                 this.updateHP.call(this);
                 
                 this.boss.isAttacked(this.player.spells[this.playerSpell].id);
-                // debugger
                 // if (!this.requestId) {
                     // this.requestId = window.requestAnimationFrame(this.renderPreview);
                     window.requestAnimationFrame(this.renderPreview);
@@ -262,7 +261,6 @@ class Game {
     }
 
     declareWinner() {
-        debugger
         this.loser.deleteChar();
         const gameover = document.getElementById('gameover');
         const endgameStatus = document.getElementsByClassName('end-game')
@@ -273,11 +271,6 @@ class Game {
         } else if (this.winner === this.boss) {
             endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
         }
-        // if (this.winner === this.boss) {
-        //     debugger
-        //     endgameStatus[0].innerHTML = "GAMEOVER. CLICK TO PLAY AGAIN."
-        //     debugger
-        // }
         canvasEl.classList.add('blur');
     }
 }

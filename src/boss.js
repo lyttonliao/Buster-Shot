@@ -175,7 +175,6 @@ class Boss {
         this.death = new Image();
         this.death.src = './assets/images/phoenix1.gif';
         this.deathSprite = new Sprite(this.death);
-        debugger
         this.deathSprite.renderAnimation(0, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
     }
 

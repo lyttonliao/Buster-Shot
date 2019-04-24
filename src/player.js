@@ -88,12 +88,6 @@ class Player {
         const end = this.atkLoop[this.atkFrame + 1];
 
         this.spellSprite.renderAnimation(start, h, (end - start), this.spellSheets.height, this.state.position['x'], this.state.position['y'] + 20, this.dw * (end - start) / 46, this.dh, this.ctx)
-        // debugger
-        // if (this.atkFrame === this.atkLoop.length - 2) {
-        //     debugger
-        //     this.atkFrame = 0;
-        //     this.render();
-        // }
     }
 
     resetCooldown(spell) {
