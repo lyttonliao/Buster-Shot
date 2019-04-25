@@ -253,7 +253,7 @@ class Game {
             this.winner = this.boss
         }
 
-        if (this.boss.state.hp <= 0) {
+        if (this.boss.state.hp <= 20) {
             this.gameover = true;
             this.loser = this.boss;
             this.winner = this.player
