@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         volControl.className = volControl.className === 'fas fa-volume-up' ? 'fas fa-volume-off' : 'fas fa-volume-up'
     })
 
-    play.addEventListener("click", () => {
+    menu.addEventListener("click", () => {
         menu.setAttribute("style", "visibility: hidden")
         playGame();
     })    
