@@ -94,7 +94,6 @@ class Player {
             setTimeout(() => {
                 this.spells[spell].cooldown = false
             }, this.spells[spell].cooldownTime);
-            debugger
             return;
         }
         // setTimeout(() => {
