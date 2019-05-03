@@ -28,7 +28,7 @@ class Player {
                 attackName: 'Bustershot',
                 name: 'shoot',
                 damage: 20,
-                cooldownTime: 500,
+                cooldownTime: 250,
                 cooldown: false,
             },
             // thunderClap: {
