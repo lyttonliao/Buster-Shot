@@ -121,7 +121,6 @@ class Game {
     updateAttack(spell) {
         if (this.player.spells[spell].cooldown === false) {
             this.playerAttack = true;
-
             this.boss.state.hp -= this.player.spells[spell].damage;
             this.player.spells[spell].cooldown = true;
             this.player.resetCooldown(spell);
@@ -213,21 +212,9 @@ class Game {
             this.gameModel.render();
             this.declareWinner();
             this.winner.render();
-            // if (this.requestId) {
-            window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
-            //     this.requestId = undefined;
-            // }
             return;
         }
-        // } else {
-            // this.boss.render();
-        // }
-        // const plane = requestAnimationFrame(this.renderPreview);
-        // if (!this.requestId) {
-            // this.requestId = window.requestAnimationFrame(this.renderPreview);
-            window.requestAnimationFrame(this.renderPreview);
-        // }
-        // this.animation();
+        window.requestAnimationFrame(this.renderPreview);
     }
     
     updateHP() {

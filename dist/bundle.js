@@ -3291,7 +3291,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 3000,
+            hp: 500,
         }
         this.dw = dw;
         this.dh = dh;
@@ -3448,7 +3448,7 @@ class Boss {
 
     removePhoenix(phoenixCollided){
         const index = this.phoenixArray.findIndex((element) => element === phoenixCollided)
-        this.phoenixArray = this.phoenixArray.splice(0,index).concat(this.phoenixArray.splice(index+1))
+        this.phoenixArray = this.phoenixArray.slice(0, index).concat(this.phoenixArray.slice(index + 1))
     }
 
     deleteChar() {
@@ -3606,7 +3606,6 @@ class Game {
     updateAttack(spell) {
         if (this.player.spells[spell].cooldown === false) {
             this.playerAttack = true;
-
             this.boss.state.hp -= this.player.spells[spell].damage;
             this.player.spells[spell].cooldown = true;
             this.player.resetCooldown(spell);
@@ -3698,21 +3697,9 @@ class Game {
             this.gameModel.render();
             this.declareWinner();
             this.winner.render();
-            // if (this.requestId) {
-            window.cancelAnimationFrame(requestAnimationFrame(this.renderPreview));
-            //     this.requestId = undefined;
-            // }
             return;
         }
-        // } else {
-            // this.boss.render();
-        // }
-        // const plane = requestAnimationFrame(this.renderPreview);
-        // if (!this.requestId) {
-            // this.requestId = window.requestAnimationFrame(this.renderPreview);
-            window.requestAnimationFrame(this.renderPreview);
-        // }
-        // this.animation();
+        window.requestAnimationFrame(this.renderPreview);
     }
     
     updateHP() {
@@ -3730,7 +3717,7 @@ class Game {
     }
 
     isGameover() {
-        if (this.player.state.hp === 0) {
+        if (this.player.state.hp <= 0) {
             // this.player.deleteChar();
             // document.location.reload();
             this.gameover = true;
@@ -3738,7 +3725,7 @@ class Game {
             this.winner = this.boss
         }
 
-        if (this.boss.state.hp === 0) {
+        if (this.boss.state.hp <= 20) {
             this.gameover = true;
             this.loser = this.boss;
             this.winner = this.player
@@ -3937,7 +3924,7 @@ document.addEventListener("DOMContentLoaded", () => {
         volControl.className = volControl.className === 'fas fa-volume-up' ? 'fas fa-volume-off' : 'fas fa-volume-up'
     })
 
-    play.addEventListener("click", () => {
+    menu.addEventListener("click", () => {
         menu.setAttribute("style", "visibility: hidden")
         playGame();
     })    
@@ -4049,9 +4036,6 @@ class Phoenix {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sprite */ "./src/sprite.js");
-/* harmony import */ var howler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! howler */ "./node_modules/howler/dist/howler.js");
-/* harmony import */ var howler__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(howler__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 class Player {
@@ -4085,14 +4069,14 @@ class Player {
                 cooldownTime: 500,
                 cooldown: false,
             },
-            thunderClap: {
-                id: 2,
-                attackName: 'Thunder Clap',
-                name: 'thunderClap',
-                damage: 100,
-                cooldownTime: 10000,
-                cooldown: false,
-            }
+            // thunderClap: {
+            //     id: 2,
+            //     attackName: 'Thunder Clap',
+            //     name: 'thunderClap',
+            //     damage: 100,
+            //     cooldownTime: 10000,
+            //     cooldown: false,
+            // }
         }
         this.spellList = Object.values(this.spells).slice(1).map(spell => spell.name)
 
@@ -4131,7 +4115,7 @@ class Player {
         if (spell === 'shoot') {
             var h = 0;
         } 
-        
+
         this.atkFrameTimer++;
         if (this.atkFrameTimer % this.atkAnimationSpeed < 1) {
             this.atkFrame++;
@@ -4145,13 +4129,16 @@ class Player {
 
     resetCooldown(spell) {
         if (spell === 'shoot') {
-            setTimeout(this.spells[spell].cooldown = false, this.spells[spell].cooldownTime);
+            setTimeout(() => {
+                this.spells[spell].cooldown = false
+            }, this.spells[spell].cooldownTime);
+            debugger
             return;
         }
-        setTimeout(() => {
-            this.spellList.push(spell),
-                this.spells[spell].cooldown = false;
-        }, this.spells[spell].cooldownTime)
+        // setTimeout(() => {
+        //     this.spellList.push(spell),
+        //         this.spells[spell].cooldown = false;
+        // }, this.spells[spell].cooldownTime)
     }
 
     deleteChar() {

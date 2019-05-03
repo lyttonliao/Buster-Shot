@@ -11,7 +11,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 3000,
+            hp: 500,
         }
         this.dw = dw;
         this.dh = dh;
@@ -168,7 +168,7 @@ class Boss {
 
     removePhoenix(phoenixCollided){
         const index = this.phoenixArray.findIndex((element) => element === phoenixCollided)
-        this.phoenixArray = this.phoenixArray.splice(0,index).concat(this.phoenixArray.splice(index+1))
+        this.phoenixArray = this.phoenixArray.slice(0, index).concat(this.phoenixArray.slice(index + 1))
     }
 
     deleteChar() {

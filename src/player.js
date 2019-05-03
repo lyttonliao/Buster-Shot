@@ -1,5 +1,4 @@
 import Sprite from './sprite';
-import { Howl, Howler } from 'howler';
 
 class Player {
     constructor(ctx, x, y, dw, dh) {
@@ -32,14 +31,14 @@ class Player {
                 cooldownTime: 500,
                 cooldown: false,
             },
-            thunderClap: {
-                id: 2,
-                attackName: 'Thunder Clap',
-                name: 'thunderClap',
-                damage: 100,
-                cooldownTime: 10000,
-                cooldown: false,
-            }
+            // thunderClap: {
+            //     id: 2,
+            //     attackName: 'Thunder Clap',
+            //     name: 'thunderClap',
+            //     damage: 100,
+            //     cooldownTime: 10000,
+            //     cooldown: false,
+            // }
         }
         this.spellList = Object.values(this.spells).slice(1).map(spell => spell.name)
 
@@ -78,7 +77,7 @@ class Player {
         if (spell === 'shoot') {
             var h = 0;
         } 
-        
+
         this.atkFrameTimer++;
         if (this.atkFrameTimer % this.atkAnimationSpeed < 1) {
             this.atkFrame++;
@@ -92,13 +91,16 @@ class Player {
 
     resetCooldown(spell) {
         if (spell === 'shoot') {
-            setTimeout(this.spells[spell].cooldown = false, this.spells[spell].cooldownTime);
+            setTimeout(() => {
+                this.spells[spell].cooldown = false
+            }, this.spells[spell].cooldownTime);
+            debugger
             return;
         }
-        setTimeout(() => {
-            this.spellList.push(spell),
-                this.spells[spell].cooldown = false;
-        }, this.spells[spell].cooldownTime)
+        // setTimeout(() => {
+        //     this.spellList.push(spell),
+        //         this.spells[spell].cooldown = false;
+        // }, this.spells[spell].cooldownTime)
     }
 
     deleteChar() {
