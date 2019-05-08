@@ -58,15 +58,15 @@ Whoever is defeated will fade away, and it will display a message for victory or
 
 Phoenix's are randomly generated on the rows of the platform that you are standing on. There is an array that holds the phoenixes. As they are collide with the player or the edge of the map, they are removed from the array. As the boss' hp drops, the phoenixes are added to the array at a lower frame rate interval.
 
-![alt text](https://github.com/lyttonliao/BusterShot/blob/master/app/assets/images/phoenix.png)
+![alt text](https://github.com/lyttonliao/Buster-Shot/blob/master/assets/images/phoenix.png)
 
 The boss and player both have spells, but the player's shot has a cooldown. These attributes are set as part of the state local to the entity.
 
-![alt text](https://github.com/lyttonliao/NetflixClone/blob/master/app/assets/images/spell.png)
+![alt text](https://github.com/lyttonliao/Buster-Shot/blob/master/assets/images/spell.png)
 
 To create a more seamless experience, and make sure the player focuses on dodging and attacking strategically, there is a cooldown imposed on abilities.
 
-![alt text](https://github.com/lyttonliao/NetflixClone/blob/master/app/assets/images/resetcd.png)
+![alt text](https://github.com/lyttonliao/Buster-Shot/blob/master/assets/images/resetcd.png)
 
 ### Bonus features
 * Implement more battle chips, and allow user to select order of randomized battle chips in inventory
