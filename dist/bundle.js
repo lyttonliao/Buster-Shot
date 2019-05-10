@@ -3363,10 +3363,10 @@ class Boss {
         this.sprite.renderAnimation(155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         if (this.currentFrame === this.bossMoveLoop.length) {
             this.currentFrame = 0;
-            // this.flying.play();
+            this.flying.play();
         }
 
-        if (this.currentFrame = 1) this.flying.play();
+        // if (this.currentFrame = 1 && this.frameTimer % this.animationSpeed === 0) this.flying.play();
     }
 
     isAttacked(spellId) {
@@ -3398,27 +3398,27 @@ class Boss {
         this.attacking = true;
 
         if (this.state.hp > 2500) {
-            if (this.atkFrameTimer % 40 === 0) {
-                this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
-            }
-        } else if (this.state.hp > 2000) {
             if (this.atkFrameTimer % 35 === 0) {
                 this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
             }
-        } else if (this.state.hp > 1500) {
+        } else if (this.state.hp > 2000) {
             if (this.atkFrameTimer % 30 === 0) {
                 this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
             }
-        } else if (this.state.hp > 1000) {
+        } else if (this.state.hp > 1500) {
             if (this.atkFrameTimer % 25 === 0) {
                 this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
             }
+        } else if (this.state.hp > 1000) {
+            if (this.atkFrameTimer % 22 === 0) {
+                this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
+            }
         } else if (this.state.hp > 500) {
-            if (this.atkFrameTimer % 20 === 0) {
+            if (this.atkFrameTimer % 18 === 0) {
                 this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
             }
         } else if (this.state.hp > 0) {
-            if (this.atkFrameTimer % 15 === 0) {
+            if (this.atkFrameTimer % 15=== 0) {
                 this.phoenixArray.push(new _objects_phoenix__WEBPACK_IMPORTED_MODULE_1__["default"](this.phoenix, this.player, this.ctx));
             }
         }
@@ -4067,8 +4067,8 @@ class Player {
                 id: 1,
                 attackName: 'Bustershot',
                 name: 'shoot',
-                damage: 20,
-                cooldownTime: 250,
+                damage: 30,
+                cooldownTime: 500,
                 cooldown: false,
             },
             // thunderClap: {
