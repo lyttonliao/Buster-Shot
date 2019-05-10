@@ -3291,7 +3291,7 @@ class Boss {
                 x: x,
                 y: y
             },
-            hp: 500,
+            hp: 3000,
         }
         this.dw = dw;
         this.dh = dh;
@@ -3363,8 +3363,10 @@ class Boss {
         this.sprite.renderAnimation(155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         if (this.currentFrame === this.bossMoveLoop.length) {
             this.currentFrame = 0;
-            this.flying.play();
+            // this.flying.play();
         }
+
+        if (this.currentFrame = 1) this.flying.play();
     }
 
     isAttacked(spellId) {
@@ -4066,7 +4068,7 @@ class Player {
                 attackName: 'Bustershot',
                 name: 'shoot',
                 damage: 20,
-                cooldownTime: 500,
+                cooldownTime: 250,
                 cooldown: false,
             },
             // thunderClap: {
@@ -4132,7 +4134,6 @@ class Player {
             setTimeout(() => {
                 this.spells[spell].cooldown = false
             }, this.spells[spell].cooldownTime);
-            debugger
             return;
         }
         // setTimeout(() => {

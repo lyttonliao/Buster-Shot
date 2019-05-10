@@ -83,8 +83,10 @@ class Boss {
         this.sprite.renderAnimation(155 * moveIndex, 0, 155, 164, this.state.position['x'], this.state.position['y'], this.dw, this.dh, this.ctx);
         if (this.currentFrame === this.bossMoveLoop.length) {
             this.currentFrame = 0;
-            this.flying.play();
+            // this.flying.play();
         }
+
+        if (this.currentFrame = 1) this.flying.play();
     }
 
     isAttacked(spellId) {
