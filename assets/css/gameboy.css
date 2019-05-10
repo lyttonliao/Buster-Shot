@@ -140,17 +140,20 @@
     width: 720px;
     height: 75px;
     top: 675px;
+    font-size: 2.5em;    
 }
 
 #personal-site {
-    position: absolute;
+    /* position: absolute;
     display: flex;
     justify-content: center;
     width: 720px;
     height: 75px;
     top: 735px;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    font-weight: bold; */
+    /* font-size: 2.5em;     */
+    padding: 15px;
 }
 
 #linkedIn {
@@ -158,7 +161,7 @@
 }
 
 .fa-linkedin {
-    font-size: 2.5em;
+    /* font-size: 2.5em; */
 }
 
 #github {
@@ -166,11 +169,11 @@
 }
 
 .fa-github-alt {
-    font-size: 2.5em;
+    /* font-size: 2.5em; */
 }
 
 .fa-angellist {
-    font-size: 2.5em;
+    /* font-size: 2.5em; */
 }
 
 #angellist {
