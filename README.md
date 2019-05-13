@@ -1,8 +1,10 @@
 # README
 
-## Project Title - https://lyttonliao.github.io/Buster-Shot/
+## Project Title
 
 Game: Buster Shot
+
+[Live Site](https://lyttonliao.github.io/Buster-Shot/)
 
 ## Background and Overview
 
